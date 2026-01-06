@@ -4,6 +4,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Car } from './car.entity';
+import { CreateCarDto } from './dto/create-car.dto';
 
 @Injectable()
 export class CarsService {
@@ -15,6 +16,12 @@ export class CarsService {
   // Метод для получения всех машин
   async findAll(): Promise<Car[]> {
     return this.carsRepository.find(); // Находит все записи в таблице 'car'
+  }
+
+  // Метод для создания новой машины
+  async create(createCarDto: CreateCarDto): Promise<Car> {
+    const car = this.carsRepository.create(createCarDto);
+    return this.carsRepository.save(car);
   }
 
   // (Опционально) Метод для добавления тестовых данных при запуске
